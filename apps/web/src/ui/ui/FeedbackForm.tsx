@@ -1,24 +1,43 @@
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquarePlus, Send, Star, Loader2, CheckCircle2 } from 'lucide-react';
-import { toast } from 'sonner';
-import Button from '@/ui/ui/Button';
-import { cn } from '@/logic/formatters';
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  MessageSquarePlus,
+  Send,
+  Star,
+  Loader2,
+  CheckCircle2,
+} from "lucide-react";
+import { toast } from "sonner";
+import Button from "@/ui/ui/Button";
+import { cn } from "@/logic/formatters";
 
-type FeedbackCategory = 'kegunaan' | 'tampilan' | 'teknik' | 'saran' | 'bug' | 'lainnya';
+type FeedbackCategory =
+  | "kegunaan"
+  | "tampilan"
+  | "teknik"
+  | "saran"
+  | "bug"
+  | "lainnya";
 
-const CATEGORIES: { value: FeedbackCategory; label: string; emoji: string }[] = [
-  { value: 'kegunaan', label: 'Kegunaan', emoji: '🎯' },
-  { value: 'tampilan', label: 'Tampilan', emoji: '🎨' },
-  { value: 'teknik', label: 'Teknik', emoji: '🧘' },
-  { value: 'saran', label: 'Saran', emoji: '💡' },
-  { value: 'bug', label: 'Bug', emoji: '🐛' },
-  { value: 'lainnya', label: 'Lainnya', emoji: '💬' },
+const CATEGORIES: { value: FeedbackCategory; label: string; emoji: string }[] =
+  [
+    { value: "kegunaan", label: "Kegunaan", emoji: "🎯" },
+    { value: "tampilan", label: "Tampilan", emoji: "🎨" },
+    { value: "teknik", label: "Teknik", emoji: "🧘" },
+    { value: "saran", label: "Saran", emoji: "💡" },
+    { value: "bug", label: "Bug", emoji: "🐛" },
+    { value: "lainnya", label: "Lainnya", emoji: "💬" },
+  ];
+
+const STAR_LABELS = [
+  "Sangat buruk",
+  "Kurang",
+  "Cukup",
+  "Bagus",
+  "Sangat bagus",
 ];
 
-const STAR_LABELS = ['Sangat buruk', 'Kurang', 'Cukup', 'Bagus', 'Sangat bagus'];
-
-const STORAGE_KEY = 'ruang-pulih:feedback-given';
+const STORAGE_KEY = "ruang-pulih:feedback-given";
 
 interface FeedbackFormProps {
   sourcePage: string;
@@ -26,11 +45,15 @@ interface FeedbackFormProps {
   onSubmitted?: () => void;
 }
 
-export default function FeedbackForm({ sourcePage, compact = false, onSubmitted }: FeedbackFormProps) {
+export default function FeedbackForm({
+  sourcePage,
+  compact = false,
+  onSubmitted,
+}: FeedbackFormProps) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [category, setCategory] = useState<FeedbackCategory | null>(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -42,9 +65,9 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
     setSubmitting(true);
 
     try {
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           rating,
           category,
@@ -53,18 +76,26 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
         }),
       });
 
-      if (!response.ok) throw new Error('Gagal mengirim');
+      if (!response.ok) throw new Error("Gagal mengirim");
 
       window.localStorage.setItem(STORAGE_KEY, new Date().toISOString());
       setSubmitted(true);
-      toast.success('Terima kasih atas masukanmu!');
+      toast.success("Terima kasih atas masukanmu!");
       onSubmitted?.();
     } catch {
-      toast.error('Gagal mengirim masukan. Coba lagi nanti.');
+      toast.error("Gagal mengirim masukan. Coba lagi nanti.");
     } finally {
       setSubmitting(false);
     }
-  }, [canSubmit, submitting, rating, category, message, sourcePage, onSubmitted]);
+  }, [
+    canSubmit,
+    submitting,
+    rating,
+    category,
+    message,
+    sourcePage,
+    onSubmitted,
+  ]);
 
   if (submitted) {
     return (
@@ -76,9 +107,12 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
           <CheckCircle2 size={28} />
         </div>
-        <p className="text-title-sm text-primary-container">Masukan berhasil dikirim</p>
+        <p className="text-title-sm text-primary-container">
+          Masukan berhasil dikirim
+        </p>
         <p className="text-body-sm text-muted-foreground">
-          Terima kasih sudah meluangkan waktu untuk membantu kami menjadi lebih baik.
+          Terima kasih sudah meluangkan waktu untuk membantu kami menjadi lebih
+          baik.
         </p>
       </motion.div>
     );
@@ -90,8 +124,8 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
       className={cn(
-        'rounded-lg border border-border bg-card shadow-level-1',
-        compact ? 'p-4' : 'p-5 md:p-6',
+        "rounded-lg border border-border bg-card shadow-level-1",
+        compact ? "p-4" : "p-5 md:p-6",
       )}
     >
       {/* Header */}
@@ -103,7 +137,8 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
           <div>
             <p className="text-title-lg text-foreground">Beri Masukan</p>
             <p className="mt-0.5 text-body-sm text-muted-foreground">
-              Bantu kami memperbaiki aplikasi ini. Masukanmu anonim dan sangat berarti.
+              Bantu kami memperbaiki aplikasi ini. Masukanmu anonim dan sangat
+              berarti.
             </p>
           </div>
         </div>
@@ -111,27 +146,37 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Star rating */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p
+          id="rating-label"
+          className="mb-2 text-label-md text-muted-foreground"
+        >
           Bagaimana pengalamanmu? <span className="text-destructive">*</span>
         </p>
-        <div className="flex items-center gap-1">
+        <div
+          role="group"
+          aria-labelledby="rating-label"
+          className="flex items-center gap-1"
+        >
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               type="button"
+              aria-pressed={activeRating >= star}
               className={cn(
-                'inline-flex min-h-12 min-w-12 items-center justify-center rounded-md p-1 transition-all duration-150',
-                'hover:scale-110 focus-visible:ring-2 focus-visible:ring-primary/40',
-                activeRating >= star ? 'text-amber-400' : 'text-muted-foreground/30',
+                "inline-flex min-h-12 min-w-12 items-center justify-center rounded-md p-1 transition-all duration-150",
+                "hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+                activeRating >= star
+                  ? "text-amber-400"
+                  : "text-muted-foreground/30",
               )}
               onMouseEnter={() => setHoverRating(star)}
               onMouseLeave={() => setHoverRating(0)}
               onClick={() => setRating(star)}
-              aria-label={`${star} bintang — ${STAR_LABELS[star - 1]}`}
+              aria-label={`${star} bintang - ${STAR_LABELS[star - 1]}`}
             >
               <Star
                 size={compact ? 26 : 30}
-                fill={activeRating >= star ? 'currentColor' : 'none'}
+                fill={activeRating >= star ? "currentColor" : "none"}
                 strokeWidth={1.5}
               />
             </button>
@@ -154,20 +199,28 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Category */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p
+          id="category-label"
+          className="mb-2 text-label-md text-muted-foreground"
+        >
           Kategori <span className="text-destructive">*</span>
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div
+          role="group"
+          aria-labelledby="category-label"
+          className="flex flex-wrap gap-2"
+        >
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               type="button"
+              aria-pressed={category === cat.value}
               onClick={() => setCategory(cat.value)}
               className={cn(
-                'inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150',
+                "inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                 category === cat.value
-                  ? 'border-primary bg-primary-surface text-primary-container shadow-sm'
-                  : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-muted',
+                  ? "border-primary bg-primary-surface text-primary-container shadow-sm"
+                  : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-muted",
               )}
             >
               <span aria-hidden="true">{cat.emoji}</span>
@@ -179,18 +232,24 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Message */}
       <div className="mb-5">
-        <p className="mb-2 text-label-md text-muted-foreground">Pesan (opsional)</p>
+        <label
+          htmlFor="feedback-message"
+          className="mb-2 block text-label-md text-muted-foreground"
+        >
+          Pesan (opsional)
+        </label>
         <textarea
+          id="feedback-message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Ceritakan pengalamanmu, saran, atau hal yang bisa kami perbaiki..."
           maxLength={2000}
           rows={compact ? 3 : 4}
           className={cn(
-            'w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5',
-            'text-body-md text-foreground placeholder:text-outline-variant',
-            'transition-all duration-200',
-            'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30',
+            "w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5",
+            "text-body-md text-foreground placeholder:text-outline-variant",
+            "transition-all duration-200",
+            "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30",
           )}
         />
         {message.length > 0 && (
@@ -212,7 +271,7 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
         ) : (
           <Send size={18} />
         )}
-        {submitting ? 'Mengirim...' : 'Kirim Masukan'}
+        {submitting ? "Mengirim..." : "Kirim Masukan"}
       </Button>
     </motion.div>
   );
