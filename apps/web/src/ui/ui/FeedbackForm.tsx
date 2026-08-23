@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquarePlus, Send, Star, Loader2, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -27,6 +27,8 @@ interface FeedbackFormProps {
 }
 
 export default function FeedbackForm({ sourcePage, compact = false, onSubmitted }: FeedbackFormProps) {
+  const ratingLabelId = useId();
+  const categoryLabelId = useId();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [category, setCategory] = useState<FeedbackCategory | null>(null);
@@ -111,10 +113,10 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Star rating */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p id={ratingLabelId} className="mb-2 text-label-md text-muted-foreground">
           Bagaimana pengalamanmu? <span className="text-destructive">*</span>
         </p>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1" role="group" aria-labelledby={ratingLabelId}>
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
@@ -154,17 +156,19 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Category */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p id={categoryLabelId} className="mb-2 text-label-md text-muted-foreground">
           Kategori <span className="text-destructive">*</span>
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2" role="group" aria-labelledby={categoryLabelId}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               type="button"
               onClick={() => setCategory(cat.value)}
+              aria-pressed={category === cat.value}
               className={cn(
                 'inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
                 category === cat.value
                   ? 'border-primary bg-primary-surface text-primary-container shadow-sm'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-muted',
