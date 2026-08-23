@@ -25,7 +25,8 @@ export const sudAnchors: ClinicalAnchor[] = [
     score: 0,
     label: "Pristine Calm",
     category: "calm",
-    description: "Tenang sepenuhnya, tidak ada ketegangan fisik atau kecemasan.",
+    description:
+      "Tenang sepenuhnya, tidak ada ketegangan fisik atau kecemasan.",
     somaticMarker: "Napas pelan, otot rileks, denyut nadi stabil.",
     recommendation: "Latihan grounding ringan untuk mempertahankan kestabilan.",
     color: "#2f8061",
@@ -34,7 +35,8 @@ export const sudAnchors: ClinicalAnchor[] = [
     score: 2,
     label: "Ringan / Kewaspadaan Normal",
     category: "mild",
-    description: "Sedikit kekhawatiran ringan, namun perhatian mudah dialihkan.",
+    description:
+      "Sedikit kekhawatiran ringan, namun perhatian mudah dialihkan.",
     somaticMarker: "Kewaspadaan ringan tanpa sesak napas.",
     recommendation: "Grounding sensorik 5-4-3-2-1 atau afirmasi positif.",
     color: "#3b707a",
@@ -45,7 +47,8 @@ export const sudAnchors: ClinicalAnchor[] = [
     category: "moderate",
     description: "Kecemasan terasa nyata. Ketegangan pada bahu atau rahang.",
     somaticMarker: "Bahu terangkat, rahang kaku, napas agak pendek.",
-    recommendation: "Latihan Box Breathing (4-4-4-4) atau Relaksasi Somatik Vagal.",
+    recommendation:
+      "Latihan Box Breathing (4-4-4-4) atau Relaksasi Somatik Vagal.",
     color: "#d97706",
   },
   {
@@ -54,7 +57,8 @@ export const sudAnchors: ClinicalAnchor[] = [
     category: "severe",
     description: "Pikiran berputar, jantung berdebar kencang, sulit fokus.",
     somaticMarker: "Tachycardia ringan, telapak tangan berkeringat, gelisah.",
-    recommendation: "Utamakan rasa aman. Gunakan Mode SOS atau teknik TIPP sentuhan.",
+    recommendation:
+      "Utamakan rasa aman. Gunakan Mode SOS atau teknik TIPP sentuhan.",
     color: "#ea580c",
   },
   {
@@ -63,7 +67,8 @@ export const sudAnchors: ClinicalAnchor[] = [
     category: "extreme",
     description: "Kecemasan ekstrim atau perasaan kewalahan mendalam.",
     somaticMarker: "Napas sangat cepat, sensasi panik hebat.",
-    recommendation: "Gunakan Mode SOS darurat. Hubungi bantuan darurat 112/119 jika merasa tidak aman.",
+    recommendation:
+      "Gunakan Mode SOS darurat. Hubungi bantuan darurat 112/119 jika merasa tidak aman.",
     color: "#dc2626",
   },
 ];
@@ -104,7 +109,9 @@ export default function SudGauge({
           style={{ color: textColor }}
         >
           <span className="text-3xl font-bold">{score}</span>
-          <span className="text-[10px] font-mono opacity-80 uppercase">/ 10 SUD</span>
+          <span className="text-[10px] font-mono opacity-80 uppercase">
+            / 10 SUD
+          </span>
         </motion.div>
       </div>
 
@@ -129,11 +136,12 @@ export default function SudGauge({
                 key={num}
                 type="button"
                 onClick={() => onChange(num)}
+                aria-pressed={isSelected}
                 className={cn(
                   "flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg text-xs sm:text-sm transition-all cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                   isSelected
                     ? "bg-primary text-primary-foreground font-bold shadow-xs scale-110"
-                    : "bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground font-medium"
+                    : "bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground font-medium",
                 )}
                 aria-label={`Pilih skor ${num}`}
               >
@@ -160,17 +168,31 @@ export default function SudGauge({
           className="grid gap-3 rounded-xl border border-border/60 bg-muted/40 p-4 text-body-sm"
         >
           <div className="flex items-start gap-2.5">
-            <Info aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-primary" />
+            <Info
+              aria-hidden="true"
+              size={18}
+              className="mt-0.5 shrink-0 text-primary"
+            />
             <div>
               <p className="font-semibold text-foreground">Marker Somatis:</p>
-              <p className="text-muted-foreground">{currentAnchor.somaticMarker}</p>
+              <p className="text-muted-foreground">
+                {currentAnchor.somaticMarker}
+              </p>
             </div>
           </div>
           <div className="flex items-start gap-2.5">
-            <ShieldAlert aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-amber-700 dark:text-amber-300" />
+            <ShieldAlert
+              aria-hidden="true"
+              size={18}
+              className="mt-0.5 shrink-0 text-amber-700 dark:text-amber-300"
+            />
             <div>
-              <p className="font-semibold text-foreground">Saran Rekomendasi Klinik:</p>
-              <p className="text-muted-foreground">{currentAnchor.recommendation}</p>
+              <p className="font-semibold text-foreground">
+                Saran Rekomendasi Klinik:
+              </p>
+              <p className="text-muted-foreground">
+                {currentAnchor.recommendation}
+              </p>
             </div>
           </div>
         </motion.div>

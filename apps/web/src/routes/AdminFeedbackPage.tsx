@@ -331,8 +331,9 @@ export default function AdminFeedbackPage() {
             <button
               type="button"
               onClick={() => setFilterCategory("")}
+              aria-pressed={!filterCategory}
               className={cn(
-                "inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg border px-3 py-1 text-sm font-medium transition-colors",
+                "inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg border px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                 !filterCategory
                   ? "border-primary bg-primary-surface text-primary-container"
                   : "border-border text-muted-foreground hover:bg-muted",
@@ -345,8 +346,9 @@ export default function AdminFeedbackPage() {
                 key={key}
                 type="button"
                 onClick={() => setFilterCategory(key)}
+                aria-pressed={filterCategory === key}
                 className={cn(
-                  "inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg border px-3 py-1 text-sm font-medium transition-colors",
+                  "inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg border px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                   filterCategory === key
                     ? "border-primary bg-primary-surface text-primary-container"
                     : "border-border text-muted-foreground hover:bg-muted",
