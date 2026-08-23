@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquarePlus, Send, Star, Loader2, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -31,6 +31,7 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
   const [hoverRating, setHoverRating] = useState(0);
   const [category, setCategory] = useState<FeedbackCategory | null>(null);
   const [message, setMessage] = useState('');
+  const messageId = useId();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -180,8 +181,9 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Message */}
       <div className="mb-5">
-        <p className="mb-2 text-label-md text-muted-foreground">Pesan (opsional)</p>
+        <label htmlFor={messageId} className="mb-2 block text-label-md text-muted-foreground">Pesan (opsional)</label>
         <textarea
+          id={messageId}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Ceritakan pengalamanmu, saran, atau hal yang bisa kami perbaiki..."
