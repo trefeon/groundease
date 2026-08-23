@@ -96,7 +96,7 @@ export function BottomSheetDrawer({
                 aria-label="Tutup"
                 className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground active:scale-95 transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/35"
               >
-                <X size={20} />
+                <X size={20} aria-hidden="true" />
               </button>
             </div>
 

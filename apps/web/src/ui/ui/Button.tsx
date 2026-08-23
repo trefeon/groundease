@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -49,29 +50,26 @@ type ButtonProps = HTMLMotionProps<"button"> &
     pulse?: boolean;
   };
 
-function Button({
-  className,
-  variant,
-  size,
-  pulse = false,
-  disabled,
-  ...props
-}: ButtonProps) {
-  return (
-    <motion.button
-      className={cn(
-        buttonVariants({ variant, size }),
-        pulse && "animate-pulse-soft",
-        className,
-      )}
-      disabled={disabled}
-      whileHover={disabled ? undefined : { scale: 1.02 }}
-      whileTap={disabled ? undefined : { scale: 0.96 }}
-      transition={tapSpring}
-      {...props}
-    />
-  );
-}
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, pulse = false, disabled, ...props }, ref) => {
+    return (
+      <motion.button
+        ref={ref}
+        className={cn(
+          buttonVariants({ variant, size }),
+          pulse && "animate-pulse-soft",
+          className,
+        )}
+        disabled={disabled}
+        whileHover={disabled ? undefined : { scale: 1.02 }}
+        whileTap={disabled ? undefined : { scale: 0.96 }}
+        transition={tapSpring}
+        {...props}
+      />
+    );
+  },
+);
+Button.displayName = "Button";
 
 export { Button, buttonVariants };
 export default Button;
