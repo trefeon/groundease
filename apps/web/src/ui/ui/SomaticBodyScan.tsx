@@ -85,8 +85,9 @@ export default function SomaticBodyScan() {
               <button
                 key={region.id}
                 type="button"
+                aria-pressed={isSelected}
                 onClick={() => setSelectedRegion(region)}
-                className={`flex items-center justify-between rounded-xl border p-3.5 text-left text-title-sm transition-all cursor-pointer ${
+                className={`flex items-center justify-between rounded-xl border p-3.5 text-left text-title-sm transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                   isSelected
                     ? "border-primary bg-primary-surface text-primary shadow-xs font-semibold"
                     : "border-border/70 bg-background text-foreground hover:bg-muted/60"

@@ -162,9 +162,10 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
             <button
               key={cat.value}
               type="button"
+              aria-pressed={category === cat.value}
               onClick={() => setCategory(cat.value)}
               className={cn(
-                'inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150',
+                'inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
                 category === cat.value
                   ? 'border-primary bg-primary-surface text-primary-container shadow-sm'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-muted',
@@ -179,8 +180,9 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Message */}
       <div className="mb-5">
-        <p className="mb-2 text-label-md text-muted-foreground">Pesan (opsional)</p>
+        <label htmlFor="feedback-message" className="mb-2 block text-label-md text-muted-foreground">Pesan (opsional)</label>
         <textarea
+          id="feedback-message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Ceritakan pengalamanmu, saran, atau hal yang bisa kami perbaiki..."
