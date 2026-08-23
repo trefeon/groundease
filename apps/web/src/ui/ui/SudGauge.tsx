@@ -136,6 +136,7 @@ export default function SudGauge({
                     : "bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground font-medium"
                 )}
                 aria-label={`Pilih skor ${num}`}
+                aria-pressed={isSelected}
               >
                 {num}
               </button>

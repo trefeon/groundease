@@ -295,7 +295,9 @@ function ScoreStep({
   return (
     <div className="grid gap-7">
       <div>
-        <p className="text-label-md font-semibold tracking-wide uppercase text-primary">SUD Scale 0-10</p>
+        <p className="text-label-md font-semibold tracking-wide uppercase text-primary">
+          SUD Scale 0-10
+        </p>
         <h1 className="mt-2 text-display-sm text-foreground">{title}</h1>
         <p className="mt-3 text-body-md text-muted-foreground">{helper}</p>
       </div>
@@ -364,11 +366,12 @@ function ScoreStep({
                   key={num}
                   type="button"
                   onClick={() => onScoreChange(num)}
+                  aria-pressed={isSelected}
                   className={cn(
                     "flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg text-xs sm:text-sm transition-all cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                     isSelected
                       ? "bg-primary text-primary-foreground font-bold shadow-xs scale-110"
-                      : "bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground font-medium"
+                      : "bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground font-medium",
                   )}
                   aria-label={`Pilih skor ${num}`}
                 >
