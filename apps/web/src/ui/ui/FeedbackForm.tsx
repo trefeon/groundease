@@ -111,10 +111,10 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Star rating */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p id="rating-label" className="mb-2 text-label-md text-muted-foreground">
           Bagaimana pengalamanmu? <span className="text-destructive">*</span>
         </p>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1" role="group" aria-labelledby="rating-label">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
@@ -154,17 +154,18 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Category */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p id="category-label" className="mb-2 text-label-md text-muted-foreground">
           Kategori <span className="text-destructive">*</span>
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2" role="group" aria-labelledby="category-label">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               type="button"
+              aria-pressed={category === cat.value}
               onClick={() => setCategory(cat.value)}
               className={cn(
-                'inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150',
+                'inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
                 category === cat.value
                   ? 'border-primary bg-primary-surface text-primary-container shadow-sm'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-muted',
