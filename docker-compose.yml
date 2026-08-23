@@ -1,0 +1,70 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - groundease-network
+    mem_limit: 256m
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    environment:
+      # Reads MONGO_ROOT_USER / MONGO_ROOT_PASSWORD from the project .env
+      # (server keeps its own .env; local dev falls back to defaults below).
+      - MONGODB_URI=mongodb://${MONGO_ROOT_USER:-root}:${MONGO_ROOT_PASSWORD:-groundease_dev}@mongo:27017/groundease?authSource=admin
+      - PORT=5000
+      - NODE_ENV=production
+    ports:
+      - "5000:5000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - groundease-network
+    mem_limit: 256m
+
+  mongo:
+    image: mongo:4.4
+    restart: unless-stopped
+    # --auth enforced: root user is bootstrapped only on a fresh data dir;
+    # on the server the account already exists (data dir non-empty), so
+    # MONGO_INITDB_ROOT_* are documentation-only there — credentials come
+    # from the project .env via MONGO_ROOT_USER / MONGO_ROOT_PASSWORD.
+    command: ["mongod", "--auth", "--wiredTigerCacheSizeGB", "0.25"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-groundease_dev}
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - groundease-network
+    mem_limit: 256m
+    # The API waits for mongo to be genuinely ready (--auth + WiredTiger
+    # recovery can take seconds on an existing data dir), which prevents
+    # the ECONNREFUSED startup race seen on first monorepo deploy.
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'mongo -u "$$MONGO_ROOT_USER" -p "$$MONGO_ROOT_PASSWORD" --authenticationDatabase admin --quiet --eval ''db.adminCommand({ping:1}).ok'' | grep -q 1',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+networks:
+  groundease-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

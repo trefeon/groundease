@@ -1,0 +1,6 @@
+node_modules
+dist
+.git
+.gitignore
+*.md
+# Dockerfile should NOT be ignored if it's needed in context (though usually it's fine)

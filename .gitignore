@@ -1,0 +1,152 @@
+# =========================
+# Dependencies
+# =========================
+node_modules/
+.pnp
+.pnp.js
+jspm_packages/
+
+# =========================
+# Build / Production Output
+# =========================
+dist/
+build/
+out/
+.next/
+.vercel/
+*.tsbuildinfo
+
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.pfx
+
+# =========================
+# Large Media / Binary Files
+# (use Git LFS or host externally)
+# =========================
+*.mp3
+*.wav
+*.ogg
+*.flac
+*.mp4
+*.mov
+*.avi
+*.gif
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.svg
+!apps/web/public/**
+!apps/web/src/**
+
+# =========================
+# IDE & Editors
+# =========================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+.vs/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.user
+*.userosscache
+*.sln.docuser
+
+# =========================
+# OS Specific
+# =========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# =========================
+# Debug & Logs
+# =========================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+*.log.*
+logs/
+
+# =========================
+# Testing
+# =========================
+coverage/
+.nyc_output
+.playwright/
+test-results/
+
+# =========================
+# Agent & Workspace Local
+# =========================
+scratch/
+output/
+.gemini/
+.lean-ctx/
+.playwright-mcp/
+.brain/
+.antigravity/
+.serena/
+.Jules/
+
+# =========================
+# Miscellaneous
+# =========================
+*.bak
+*.tmp
+*.temp
+*.old
+*.tar.gz
+*.tgz
+*.zip
+.codebase-memory/
+.openai/
+.cursor/
+
+# =========================
+# Root-level one-offs
+# =========================
+
+
+# Multi-agent workspace (other team)
+.agents/
+ORIGINAL_REQUEST.md
+apps/web/src/components/
+apps/web/src/pages/
+
+# Dev Docs & Local Test Artifacts
+PLAN.md
+/PLAN.md
+TODO.md
+/TODO.md
+/TEST_*.md
+/TESTING_*.md
+/DEV_*.md
+/DEVNOTES*.md
+/TODO*.md
+/PLAN_*.md
+/CHANGELOG*.tmp.md

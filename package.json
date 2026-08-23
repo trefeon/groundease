@@ -1,0 +1,32 @@
+{
+  "name": "ruang-pulih",
+  "version": "0.1.0",
+  "description": "Aplikasi Teknik Grounding untuk Manajemen Kecemasan",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm:dev:web\" \"npm:dev:api\"",
+    "dev:web": "npm run dev --workspace @ruang-pulih/web",
+    "dev:api": "npm run dev --workspace @ruang-pulih/api",
+    "build": "npm run build --workspace @ruang-pulih/web && npm run build --workspace @ruang-pulih/api",
+    "build:web": "npm run build --workspace @ruang-pulih/web",
+    "build:api": "npm run build --workspace @ruang-pulih/api",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "keywords": [
+    "grounding",
+    "psychology",
+    "mental-health",
+    "anxiety"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prettier": "^3.8.3"
+  }
+}
