@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquarePlus, Send, Star, Loader2, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -33,6 +33,9 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const ratingLabelId = useId();
+  const categoryLabelId = useId();
 
   const activeRating = hoverRating || rating;
   const canSubmit = rating > 0 && category !== null;
@@ -111,14 +114,15 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Star rating */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p id={ratingLabelId} className="mb-2 text-label-md text-muted-foreground">
           Bagaimana pengalamanmu? <span className="text-destructive">*</span>
         </p>
-        <div className="flex items-center gap-1">
+        <div role="group" aria-labelledby={ratingLabelId} className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               type="button"
+              aria-pressed={activeRating >= star}
               className={cn(
                 'inline-flex min-h-12 min-w-12 items-center justify-center rounded-md p-1 transition-all duration-150',
                 'hover:scale-110 focus-visible:ring-2 focus-visible:ring-primary/40',
@@ -154,14 +158,15 @@ export default function FeedbackForm({ sourcePage, compact = false, onSubmitted 
 
       {/* Category */}
       <div className="mb-4">
-        <p className="mb-2 text-label-md text-muted-foreground">
+        <p id={categoryLabelId} className="mb-2 text-label-md text-muted-foreground">
           Kategori <span className="text-destructive">*</span>
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div role="group" aria-labelledby={categoryLabelId} className="flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               type="button"
+              aria-pressed={category === cat.value}
               onClick={() => setCategory(cat.value)}
               className={cn(
                 'inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150',
